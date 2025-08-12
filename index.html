@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Noah Levy Game</title>
+  <title>Goda Game</title>
   <style>
     body {
       background-color: #e0f7fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
+      margin: 0;
       padding: 40px;
       color: #004d40;
+      display: flex;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    /* Sidebar for girlfriends */
+    #sidebar {
+      width: 140px;
+      background: #004d40;
+      padding: 20px 10px;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      border-radius: 12px;
+      user-select: none;
+    }
+    .gf {
+      text-align: center;
+      opacity: 0.3;
+      transition: opacity 0.4s ease;
+    }
+    .gf.unlocked {
+      opacity: 1;
+    }
+    .emoji {
+      font-size: 48px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .initials {
+      font-size: 20px;
+      letter-spacing: 2px;
+      user-select: text;
+    }
+    .name-rarity {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #a5d6a7;
+    }
+    /* Main content */
+    #main {
+      flex-grow: 1;
+      text-align: center;
+      padding-left: 40px;
     }
     #noah {
       font-size: 120px;
@@ -43,23 +90,51 @@
       margin-top: 25px;
       font-weight: 600;
       color: #00695c;
+      min-height: 30px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Noah Levy's Adventure</h1>
-  <div id="noah">😀</div>
-  <button onclick="eatBagels()">Eat Bagels and Co 🥯</button>
-  <button onclick="goToTrainings()">Go to Ye Trainings</button>
+  <div id="sidebar">
+    <div id="abby" class="gf">
+      <div class="emoji">👧🏻</div>
+      <div class="initials">AR</div>
+      <div class="name-rarity" style="display:none;">Abby Rabby (Common)</div>
+    </div>
+    <div id="miriam" class="gf">
+      <div class="emoji">👧</div>
+      <div class="initials">MS</div>
+      <div class="name-rarity" style="display:none;">Miriam Spamzzz (Rare)</div>
+    </div>
+    <div id="alexa" class="gf">
+      <div class="emoji">👧🏿</div>
+      <div class="initials">AD</div>
+      <div class="name-rarity" style="display:none;">Alexa Darvish (Mythical)</div>
+    </div>
+  </div>
 
-  <div id="message"></div>
-  <div id="girlfriend"></div>
+  <div id="main">
+    <h1>Goda Game</h1>
+    <div id="noah">😀</div>
+    <button onclick="eatBagels()">Eat Bagels and Co 🥯</button>
+    <button onclick="goToTrainings()">Go to Ye Trainings</button>
+
+    <div id="message"></div>
+    <div id="girlfriend"></div>
+  </div>
 
   <script>
     let size = 3; // middle size
     let trainingsCount = 0;
     let godathinUnlocked = false;
+
+    // Track which girlfriends unlocked
+    const girlfriends = {
+      "abby": false,
+      "miriam": false,
+      "alexa": false
+    };
 
     function updateNoah() {
       let emoji = "😀"; // default average
@@ -110,17 +185,36 @@
 
     function spawnGirlfriend() {
       let roll = Math.random() * 100;
-      let result = "";
+      let unlockedName = "";
+      let rarityText = "";
+      let gfId = "";
 
       if (roll < 60) {
-        result = "You unlocked Abby Rabby! (Common - 60%)";
+        unlockedName = "Abby Rabby";
+        rarityText = "Common";
+        gfId = "abby";
       } else if (roll < 90) {
-        result = "You unlocked Miriam Spamzzz! (Rare - 30%)";
+        unlockedName = "Miriam Spamzzz";
+        rarityText = "Rare";
+        gfId = "miriam";
       } else {
-        result = "You unlocked Alexa Darvish! (Mythical - 10%)";
+        unlockedName = "Alexa Darvish";
+        rarityText = "Mythical";
+        gfId = "alexa";
       }
 
-      document.getElementById("girlfriend").textContent = result;
+      // Unlock girlfriend if not unlocked
+      if (!girlfriends[gfId]) {
+        girlfriends[gfId] = true;
+        // Update sidebar styling to show unlocked
+        const gfDiv = document.getElementById(gfId);
+        gfDiv.classList.add("unlocked");
+        gfDiv.querySelector(".name-rarity").style.display = "block";
+      }
+
+      // Show unlock message below buttons
+      document.getElementById("girlfriend").textContent = 
+        `You unlocked ${unlockedName}! (${rarityText} - ${Math.floor(roll)}%)`;
     }
 
     updateNoah();
