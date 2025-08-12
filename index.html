@@ -131,6 +131,7 @@
       font-weight: 600;
       color: #00695c;
       min-height: 30px;
+      transition: opacity 0.3s ease;
     }
     #mythic-msg {
       position: fixed;
@@ -200,7 +201,7 @@
     </div>
   </div>
 
-  <div id="mythic-msg">You have consumed too many calories and all your girlfriends have left you</div>
+  <div id="mythic-msg">Everything bagel scooped out toasted with egg cheese hotsauce and raw onion</div>
 
   <script>
     let size = 3; // middle size
@@ -220,6 +221,8 @@
       "milk": false,
       "everything": false
     };
+
+    let unlockMsgTimeout;
 
     function updateNoah() {
       let emoji = "😀"; // default average
@@ -241,6 +244,10 @@
       if (size > 6) size = 6;
       updateNoah();
       checkMessages();
+
+      if (godathinUnlocked && size === 6) {
+        spawnFood();
+      }
     }
 
     function goToTrainings() {
@@ -251,107 +258,7 @@
 
       if (godathinUnlocked) {
         spawnGirlfriend();
-        spawnFood();
       }
     }
 
-    function checkMessages() {
-      let message = "";
-      if (size >= 6) {
-        message = "YOU ARE NOW GODATHICK!";
-        godathinUnlocked = true;
-      }
-      if (size <= 0) {
-        message = "YOU ARE NOW GODATHIN!";
-        if (!godathinUnlocked) {
-          godathinUnlocked = true; // Keep godathinUnlocked true here for consistency (optional)
-        }
-      }
-      document.getElementById("message").textContent = message;
-    }
-
-    function spawnGirlfriend() {
-      let roll = Math.random() * 100;
-      let unlockedName = "";
-      let rarityText = "";
-      let gfId = "";
-
-      if (roll < 60) {
-        unlockedName = "Abby Rabby";
-        rarityText = "Common";
-        gfId = "abby";
-      } else if (roll < 90) {
-        unlockedName = "Miriam Spamzzz";
-        rarityText = "Rare";
-        gfId = "miriam";
-      } else {
-        unlockedName = "Alexa Darvish";
-        rarityText = "Mythical";
-        gfId = "alexa";
-      }
-
-      if (!girlfriends[gfId]) {
-        girlfriends[gfId] = true;
-        const gfDiv = document.getElementById(gfId);
-        gfDiv.classList.add("unlocked");
-        gfDiv.querySelector(".name-rarity").style.display = "block";
-      }
-
-      document.getElementById("girlfriend").textContent = 
-        `You unlocked ${unlockedName}! (${rarityText} - ${Math.floor(roll)}%)`;
-    }
-
-    function spawnFood() {
-      let roll = Math.random() * 100;
-      let foodId = "";
-      let unlockedName = "";
-      let rarityText = "";
-
-      if (roll < 60) {
-        foodId = "egg";
-        unlockedName = "Plain Egg";
-        rarityText = "Common";
-      } else if (roll < 90) {
-        foodId = "milk";
-        unlockedName = "Small Chocolate Milk";
-        rarityText = "Rare";
-      } else {
-        foodId = "everything";
-        unlockedName = "Everything Bagel with Egg, Cheese, Hot Sauce & Raw Onion";
-        rarityText = "Mythical";
-      }
-
-      if (!foods[foodId]) {
-        foods[foodId] = true;
-        const foodDiv = document.getElementById(foodId);
-        foodDiv.classList.add("unlocked");
-
-        if(foodId === "everything") {
-          // Show big mythic message for 5 seconds
-          const mythicMsg = document.getElementById("mythic-msg");
-          mythicMsg.style.display = "block";
-
-          // Reset girlfriends to locked state
-          for (const gf in girlfriends) {
-            girlfriends[gf] = false;
-            const gfDiv = document.getElementById(gf);
-            gfDiv.classList.remove("unlocked");
-            gfDiv.querySelector(".name-rarity").style.display = "none";
-          }
-          document.getElementById("girlfriend").textContent = "";
-
-          setTimeout(() => {
-            mythicMsg.style.display = "none";
-          }, 5000);
-        }
-      }
-
-      document.getElementById("girlfriend").textContent = 
-        `You unlocked ${unlockedName}! (${rarityText} - ${Math.floor(roll)}%)`;
-    }
-
-    updateNoah();
-  </script>
-
-</body>
-</html>
+    fun
