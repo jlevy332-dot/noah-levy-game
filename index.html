@@ -343,7 +343,9 @@
             gfDiv.classList.remove("unlocked");
             gfDiv.querySelector(".name-rarity").style.display = "none";
           }
-          document.getElementById("girlfriend").textContent = "";
+
+          // Show the calories message
+          document.getElementById("girlfriend").textContent = "You have consumed too many calories and all your girlfriends have left you";
 
           setTimeout(() => {
             mythicMsg.style.display = "none";
