@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noah Levy's Choice Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #f0f8ff;
+      color: #333;
+      text-align: center;
+    }
+    button {
+      font-size: 18px;
+      margin: 10px;
+      padding: 15px 25px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #stats {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555;
+      min-height: 24px;
+    }
+    #bigMessage {
+      margin-top: 40px;
+      font-size: 48px;
+      font-weight: bold;
+      color: #d9534f;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Choose for Noah Levy</h1>
+  <p>Noah has two options in front of him:</p>
+  <button id="burgerBtn">🍔 Eat Burger</button>
+  <button id="gymBtn">🏋️‍♂️ Use Gym Equipment</button>
+
+  <div id="stats">
+    <p><strong>Size:</strong> <span id="size">Normal</span></p>
+    <p><strong>Fitness:</strong> <span id="fitness">Normal</span></p>
+  </div>
+
+  <div id="message"></div>
+  <div id="bigMessage"></div>
+
+  <script>
+    const sizeLevels = ['Small', 'Normal', 'Large', 'Very Large'];
+    const fitnessLevels = ['Unfit', 'Normal', 'Fit', 'Very Fit'];
+
+    let sizeIndex = 1;    // Normal start
+    let fitnessIndex = 1; // Normal start
+
+    const sizeSpan = document.getElementById('size');
+    const fitnessSpan = document.getElementById('fitness');
+    const messageDiv = document.getElementById('message');
+    const bigMessageDiv = document.getElementById('bigMessage');
+
+    document.getElementById('burgerBtn').onclick = () => {
+      bigMessageDiv.textContent = '';
+      messageDiv.textContent = '';
+
+      if (sizeIndex < sizeLevels.length - 1) {
+        sizeIndex++;
+        messageDiv.textContent = "Noah ate the burger and got larger!";
+      } else {
+        messageDiv.textContent = "Noah is already at his largest size!";
+      }
+
+      // Eating burger decreases fitness by 1 if possible
+      if (fitnessIndex > 0) {
+        fitnessIndex--;
+      }
+
+      updateStats();
+      checkBigMessage();
+    };
+
+    document.getElementById('gymBtn').onclick = () => {
+      bigMessageDiv.textContent = '';
+      messageDiv.textContent = '';
+
+      if (fitnessIndex < fitnessLevels.length - 1) {
+        fitnessIndex++;
+        messageDiv.textContent = "Noah worked out and got more fit!";
+      } else {
+        messageDiv.textContent = "Noah is already at peak fitness!";
+      }
+
+      // Using gym decreases size by 1 if possible
+      if (sizeIndex > 0) {
+        sizeIndex--;
+      }
+
+      updateStats();
+      checkBigMessage();
+    };
+
+    function updateStats() {
+      sizeSpan.textContent = sizeLevels[sizeIndex];
+      fitnessSpan.textContent = fitnessLevels[fitnessIndex];
+    }
+
+    function checkBigMessage() {
+      if (sizeIndex === sizeLevels.length - 1) {
+        bigMessageDiv.textContent = "YOU ARE NOW GODATHICK!";
+      } else if (fitnessIndex === fitnessLevels.length - 1) {
+        bigMessageDiv.textContent = "YOU ARE NOW GODATHIN!";
+      }
+    }
+
+    updateStats();
+  </script>
+  
+</body>
+</html>
