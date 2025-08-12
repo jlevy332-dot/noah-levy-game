@@ -4,28 +4,45 @@
   <title>Noah Levy Game</title>
   <style>
     body {
+      background-color: #e0f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      padding: 40px;
+      color: #004d40;
     }
     #noah {
-      font-size: 100px;
+      font-size: 120px;
+      transition: font-size 0.3s ease;
+      margin: 20px 0;
     }
     button {
-      padding: 15px 30px;
-      margin: 10px;
-      font-size: 18px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 15px 40px;
+      margin: 12px;
+      font-size: 20px;
       cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #004d40;
     }
     #message {
-      font-size: 24px;
-      margin-top: 20px;
-      font-weight: bold;
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 30px;
+      color: #d32f2f;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 3px #b71c1c;
     }
     #girlfriend {
-      font-size: 20px;
-      margin-top: 15px;
-      color: darkred;
+      font-size: 22px;
+      margin-top: 25px;
+      font-weight: 600;
+      color: #00695c;
     }
   </style>
 </head>
@@ -33,7 +50,7 @@
 
   <h1>Noah Levy's Adventure</h1>
   <div id="noah">😀</div>
-  <button onclick="eatBagels()">Eat Bagels and Co</button>
+  <button onclick="eatBagels()">Eat Bagels and Co 🥯</button>
   <button onclick="goToTrainings()">Go to Ye Trainings</button>
 
   <div id="message"></div>
@@ -45,10 +62,17 @@
     let godathinUnlocked = false;
 
     function updateNoah() {
-      let emoji = "😀";
-      if (size >= 6) emoji = "😅"; // large
-      if (size <= 0) emoji = "💪"; // very fit
-      document.getElementById("noah").style.fontSize = (50 + size * 10) + "px";
+      let emoji = "😀"; // default average
+
+      if (size <= 0) {
+        emoji = "🦵"; // super thin
+      } else if (size >= 6) {
+        emoji = "👑🍑"; // godathick (crown + peach)
+      } else if (size === 5) {
+        emoji = "🍔"; // thick (burger)
+      }
+
+      document.getElementById("noah").style.fontSize = (80 + size * 15) + "px";
       document.getElementById("noah").textContent = emoji;
     }
 
