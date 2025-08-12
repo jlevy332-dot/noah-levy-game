@@ -261,4 +261,116 @@
       }
     }
 
-    fun
+    function checkMessages() {
+      let message = "";
+      if (size >= 6) {
+        message = "YOU ARE NOW GODATHICK!";
+        godathinUnlocked = true;
+      }
+      if (size <= 0) {
+        message = "YOU ARE NOW GODATHIN!";
+        if (!godathinUnlocked) {
+          godathinUnlocked = true;
+        }
+      }
+      document.getElementById("message").textContent = message;
+    }
+
+    function spawnGirlfriend() {
+      let roll = Math.random() * 100;
+      let unlockedName = "";
+      let rarityText = "";
+      let gfId = "";
+
+      if (roll < 60) {
+        unlockedName = "Abby Rabby";
+        rarityText = "Common";
+        gfId = "abby";
+      } else if (roll < 90) {
+        unlockedName = "Miriam Spamzzz";
+        rarityText = "Rare";
+        gfId = "miriam";
+      } else {
+        unlockedName = "Alexa Darvish";
+        rarityText = "Mythical";
+        gfId = "alexa";
+      }
+
+      if (!girlfriends[gfId]) {
+        girlfriends[gfId] = true;
+        const gfDiv = document.getElementById(gfId);
+        gfDiv.classList.add("unlocked");
+        gfDiv.querySelector(".name-rarity").style.display = "block";
+      }
+
+      showUnlockMessage(`You unlocked ${unlockedName}! (${rarityText} - ${Math.floor(roll)}%)`);
+    }
+
+    function spawnFood() {
+      let roll = Math.random() * 100;
+      let foodId = "";
+      let unlockedName = "";
+      let rarityText = "";
+
+      if (roll < 60) {
+        foodId = "egg";
+        unlockedName = "Plain Egg";
+        rarityText = "Common";
+      } else if (roll < 90) {
+        foodId = "milk";
+        unlockedName = "Small Chocolate Milk";
+        rarityText = "Rare";
+      } else {
+        foodId = "everything";
+        unlockedName = "Everything Bagel with Egg, Cheese, Hot Sauce & Raw Onion";
+        rarityText = "Mythical";
+      }
+
+      if (!foods[foodId]) {
+        foods[foodId] = true;
+        const foodDiv = document.getElementById(foodId);
+        foodDiv.classList.add("unlocked");
+
+        if(foodId === "everything") {
+          // Show big mythic message for 5 seconds
+          const mythicMsg = document.getElementById("mythic-msg");
+          mythicMsg.style.display = "block";
+
+          // Reset girlfriends to locked state
+          for (const gf in girlfriends) {
+            girlfriends[gf] = false;
+            const gfDiv = document.getElementById(gf);
+            gfDiv.classList.remove("unlocked");
+            gfDiv.querySelector(".name-rarity").style.display = "none";
+          }
+          document.getElementById("girlfriend").textContent = "";
+
+          setTimeout(() => {
+            mythicMsg.style.display = "none";
+          }, 5000);
+        }
+      }
+
+      showUnlockMessage(`You unlocked ${unlockedName}! (${rarityText} - ${Math.floor(roll)}%)`);
+    }
+
+    function showUnlockMessage(text) {
+      const msgDiv = document.getElementById("girlfriend");
+      msgDiv.textContent = text;
+      msgDiv.style.opacity = "1";
+
+      clearTimeout(unlockMsgTimeout);
+      unlockMsgTimeout = setTimeout(() => {
+        msgDiv.style.opacity = "0";
+      }, 5000);
+    }
+
+    updateNoah();
+
+    // Expose functions globally so buttons can access them
+    window.eatBagels = eatBagels;
+    window.goToTrainings = goToTrainings;
+  </script>
+
+</body>
+</html>
